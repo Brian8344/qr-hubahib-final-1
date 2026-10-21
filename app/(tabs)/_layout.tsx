@@ -10,7 +10,6 @@ import { getProfile, type Role } from '@/lib/profiles';
 
 export default function TabLayout() {
   const { user, loading: authLoading } = useAuth();
-
   const [role, setRole] = useState<Role | null>(null);
   const [loadingRole, setLoadingRole] = useState(true);
 
@@ -86,7 +85,7 @@ export default function TabLayout() {
         tabBarActiveTintColor: COLORS.primary,
         tabBarInactiveTintColor: COLORS.muted,
         tabBarLabelStyle: {
-          fontSize: 11,
+          fontSize: 10,
           fontWeight: '700',
           marginTop: 2,
         },
@@ -111,7 +110,7 @@ export default function TabLayout() {
         },
       }}
     >
-      {/* All roles have Home, but each sees a different dashboard. */}
+      {/* Home */}
       <Tabs.Screen
         name="index"
         options={{
@@ -126,7 +125,7 @@ export default function TabLayout() {
         }}
       />
 
-      {/* STUDENT NAVIGATION */}
+      {/* Student QR scanner */}
       <Tabs.Screen
         name="scan"
         options={{
@@ -142,6 +141,7 @@ export default function TabLayout() {
         }}
       />
 
+      {/* Existing student and teacher history */}
       <Tabs.Screen
         name="history"
         options={{
@@ -157,7 +157,7 @@ export default function TabLayout() {
         }}
       />
 
-      {/* TEACHER NAVIGATION */}
+      {/* Teacher event screen */}
       <Tabs.Screen
         name="teacher"
         options={{
@@ -173,15 +173,15 @@ export default function TabLayout() {
         }}
       />
 
-      {/* ADMIN NAVIGATION */}
+      {/* Admin user management */}
       <Tabs.Screen
-        name="admin"
+        name="users"
         options={{
-          title: 'Admin',
+          title: 'Users',
           href: isAdmin ? undefined : null,
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
-              name={focused ? 'shield-checkmark' : 'shield-checkmark-outline'}
+              name={focused ? 'people' : 'people-outline'}
               color={color}
               size={22}
             />
@@ -189,7 +189,59 @@ export default function TabLayout() {
         }}
       />
 
-      {/* Shared account page */}
+      {/* Admin event management */}
+      <Tabs.Screen
+        name="events"
+        options={{
+          title: 'Events',
+          href: isAdmin ? undefined : null,
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? 'calendar' : 'calendar-outline'}
+              color={color}
+              size={22}
+            />
+          ),
+        }}
+      />
+
+      {/* Admin attendance overview */}
+      <Tabs.Screen
+        name="attendance"
+        options={{
+          title: 'Attendance',
+          href: isAdmin ? undefined : null,
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? 'clipboard' : 'clipboard-outline'}
+              color={color}
+              size={22}
+            />
+          ),
+        }}
+      />
+
+      {/* Admin tab is immediately after Attendance */}
+      <Tabs.Screen
+        name="admin"
+        options={{
+          title: 'Admin',
+          href: isAdmin ? undefined : null,
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={
+                focused
+                  ? 'shield-checkmark'
+                  : 'shield-checkmark-outline'
+              }
+              color={color}
+              size={22}
+            />
+          ),
+        }}
+      />
+
+      {/* Profile */}
       <Tabs.Screen
         name="profile"
         options={{

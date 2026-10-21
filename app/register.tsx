@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import {
   StyleSheet,
@@ -108,7 +107,6 @@ export default function RegisterScreen() {
       }
     } catch (err) {
       console.error('Registration error:', err);
-
       setError(
         'An unexpected error occurred. Please try again.'
       );
@@ -126,16 +124,10 @@ export default function RegisterScreen() {
     >
       <KeyboardAvoidingView
         style={styles.keyboardView}
-        behavior={
-          Platform.OS === 'ios' ? 'padding' : 'height'
-        }
-        keyboardVerticalOffset={
-          Platform.OS === 'ios' ? 0 : 20
-        }
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
       >
-        <TouchableWithoutFeedback
-          onPress={Keyboard.dismiss}
-        >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <ScrollView
             contentContainerStyle={styles.scrollContent}
             keyboardShouldPersistTaps="handled"
@@ -145,237 +137,220 @@ export default function RegisterScreen() {
               <Header title="QR Attendance" />
             </View>
 
-            <Text style={styles.title}>
-              Create Account
-            </Text>
+            <View style={styles.pageHeading}>
+              <Text style={styles.title}>Create Account</Text>
+              <Text style={styles.subtitle}>
+                Register to start recording attendance
+              </Text>
+            </View>
 
-            <Text style={styles.subtitle}>
-              Register to start recording attendance
-            </Text>
+            <View style={styles.formCard}>
+              {success ? (
+                <View style={styles.successContainer}>
+                  <Text style={styles.successIcon}>✓</Text>
 
-            {success ? (
-              <View style={styles.successContainer}>
-                <Text style={styles.successTitle}>
-                  Check your email!
-                </Text>
-
-                <Text style={styles.successText}>
-                  We sent a confirmation link to{' '}
-                  {email.trim()}. Click the link to verify
-                  your account, then come back and sign in.
-                </Text>
-
-                <Link
-                  href="/login"
-                  style={styles.link}
-                >
-                  Back to Sign In
-                </Link>
-              </View>
-            ) : (
-              <View style={styles.form}>
-                {/* FULL NAME */}
-                <Text style={styles.label}>
-                  Full Name
-                </Text>
-
-                <TextInput
-                  style={styles.input}
-                  value={fullName}
-                  onChangeText={setFullName}
-                  placeholder="Jane Doe"
-                  placeholderTextColor={
-                    COLORS.textSecondary
-                  }
-                  autoCapitalize="words"
-                  autoCorrect={false}
-                  editable={!loading}
-                  maxLength={100}
-                  accessibilityLabel="Full Name"
-                />
-
-                {/* ACCOUNT TYPE */}
-                <Text style={styles.label}>
-                  Account Type
-                </Text>
-
-                <View
-                  style={styles.roleOptions}
-                  accessibilityRole="radiogroup"
-                >
-                  {/* STUDENT */}
-                  <Pressable
-                    accessibilityRole="radio"
-                    accessibilityLabel="Student"
-                    accessibilityState={{
-                      selected: accountRole === 'student',
-                    }}
-                    disabled={loading}
-                    onPress={() =>
-                      setAccountRole('student')
-                    }
-                    style={[
-                      styles.roleOption,
-                      accountRole === 'student' &&
-                        styles.roleOptionSelected,
-                    ]}
-                  >
-                    <Text
-                      style={[
-                        styles.roleOptionText,
-                        accountRole === 'student' &&
-                          styles.roleOptionTextSelected,
-                      ]}
-                    >
-                      Student
-                    </Text>
-                  </Pressable>
-
-                  {/* TEACHER */}
-                  <Pressable
-                    accessibilityRole="radio"
-                    accessibilityLabel="Teacher"
-                    accessibilityState={{
-                      selected: accountRole === 'teacher',
-                    }}
-                    disabled={loading}
-                    onPress={() =>
-                      setAccountRole('teacher')
-                    }
-                    style={[
-                      styles.roleOption,
-                      accountRole === 'teacher' &&
-                        styles.roleOptionSelected,
-                    ]}
-                  >
-                    <Text
-                      style={[
-                        styles.roleOptionText,
-                        accountRole === 'teacher' &&
-                          styles.roleOptionTextSelected,
-                      ]}
-                    >
-                      Teacher
-                    </Text>
-                  </Pressable>
-                </View>
-
-                {/* SCHOOL ID */}
-                <Text style={styles.label}>
-                  School ID
-                </Text>
-
-                <TextInput
-                  style={styles.input}
-                  value={schoolId}
-                  onChangeText={setSchoolId}
-                  placeholder="Enter your school ID"
-                  placeholderTextColor={
-                    COLORS.textSecondary
-                  }
-                  autoCapitalize="characters"
-                  autoCorrect={false}
-                  editable={!loading}
-                  maxLength={50}
-                  accessibilityLabel="School ID"
-                />
-
-                {/* EMAIL */}
-                <Text style={styles.label}>
-                  Email
-                </Text>
-
-                <TextInput
-                  style={styles.input}
-                  value={email}
-                  onChangeText={setEmail}
-                  placeholder="your.email@school.edu"
-                  placeholderTextColor={
-                    COLORS.textSecondary
-                  }
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  keyboardType="email-address"
-                  editable={!loading}
-                  accessibilityLabel="Email"
-                />
-
-                {/* PASSWORD */}
-                <Text style={styles.label}>
-                  Password
-                </Text>
-
-                <TextInput
-                  style={styles.input}
-                  value={password}
-                  onChangeText={setPassword}
-                  placeholder="At least 6 characters"
-                  placeholderTextColor={
-                    COLORS.textSecondary
-                  }
-                  secureTextEntry
-                  autoCapitalize="none"
-                  editable={!loading}
-                  accessibilityLabel="Password"
-                />
-
-                {/* CONFIRM PASSWORD */}
-                <Text style={styles.label}>
-                  Confirm Password
-                </Text>
-
-                <TextInput
-                  style={styles.input}
-                  value={confirmPassword}
-                  onChangeText={setConfirmPassword}
-                  placeholder="Re-enter your password"
-                  placeholderTextColor={
-                    COLORS.textSecondary
-                  }
-                  secureTextEntry
-                  autoCapitalize="none"
-                  editable={!loading}
-                  accessibilityLabel="Confirm Password"
-                  onSubmitEditing={handleRegister}
-                  returnKeyType="done"
-                />
-
-                {/* ERROR MESSAGE */}
-                {error ? (
-                  <Text
-                    style={styles.error}
-                    accessibilityRole="alert"
-                  >
-                    {error}
+                  <Text style={styles.successTitle}>
+                    Check your email!
                   </Text>
-                ) : null}
 
-                {/* SIGN UP BUTTON */}
-                {loading ? (
-                  <ActivityIndicator
-                    size="large"
-                    color={COLORS.primary}
-                    style={styles.loader}
-                  />
-                ) : (
-                  <AppButton
-                    theme="primary"
-                    title="Sign Up"
-                    icon="person-add-outline"
-                    onPress={handleRegister}
-                  />
-                )}
-              </View>
-            )}
+                  <Text style={styles.successText}>
+                    We sent a confirmation link to{' '}
+                    {email.trim()}. Click the link to verify
+                    your account, then come back and sign in.
+                  </Text>
 
-            {!success && (
-              <Link
-                href="/login"
-                style={styles.link}
-              >
-                Already have an account? Sign In
-              </Link>
-            )}
+                  <View style={styles.buttonWrapper}>
+                    <AppButton
+                      theme="primary"
+                      title="Back to Sign In"
+                      icon="log-in-outline"
+                      onPress={() => router.replace('/login')}
+                    />
+                  </View>
+                </View>
+              ) : (
+                <>
+                  <Text style={styles.cardTitle}>
+                    Register
+                  </Text>
+                  <Text style={styles.cardDescription}>
+                    Fill in your details to create an account.
+                  </Text>
+
+                  <View style={styles.form}>
+                    <Text style={styles.label}>Full Name</Text>
+                    <TextInput
+                      style={styles.input}
+                      value={fullName}
+                      onChangeText={setFullName}
+                      placeholder="Enter your full name"
+                      placeholderTextColor={COLORS.textSecondary}
+                      autoCapitalize="words"
+                      autoCorrect={false}
+                      editable={!loading}
+                      maxLength={100}
+                      accessibilityLabel="Full Name"
+                    />
+
+                    <Text style={styles.label}>
+                      Account Type
+                    </Text>
+
+                    <View
+                      style={styles.roleOptions}
+                      accessibilityRole="radiogroup"
+                    >
+                      <Pressable
+                        accessibilityRole="radio"
+                        accessibilityLabel="Student"
+                        accessibilityState={{
+                          selected: accountRole === 'student',
+                        }}
+                        disabled={loading}
+                        onPress={() => setAccountRole('student')}
+                        style={[
+                          styles.roleOption,
+                          accountRole === 'student' &&
+                            styles.roleOptionSelected,
+                        ]}
+                      >
+                        <Text
+                          style={[
+                            styles.roleOptionText,
+                            accountRole === 'student' &&
+                              styles.roleOptionTextSelected,
+                          ]}
+                        >
+                          Student
+                        </Text>
+                      </Pressable>
+
+                      <Pressable
+                        accessibilityRole="radio"
+                        accessibilityLabel="Teacher"
+                        accessibilityState={{
+                          selected: accountRole === 'teacher',
+                        }}
+                        disabled={loading}
+                        onPress={() => setAccountRole('teacher')}
+                        style={[
+                          styles.roleOption,
+                          accountRole === 'teacher' &&
+                            styles.roleOptionSelected,
+                        ]}
+                      >
+                        <Text
+                          style={[
+                            styles.roleOptionText,
+                            accountRole === 'teacher' &&
+                              styles.roleOptionTextSelected,
+                          ]}
+                        >
+                          Teacher
+                        </Text>
+                      </Pressable>
+                    </View>
+
+                    <Text style={styles.label}>School ID</Text>
+                    <TextInput
+                      style={styles.input}
+                      value={schoolId}
+                      onChangeText={setSchoolId}
+                      placeholder="Enter your school ID"
+                      placeholderTextColor={COLORS.textSecondary}
+                      autoCapitalize="characters"
+                      autoCorrect={false}
+                      editable={!loading}
+                      maxLength={50}
+                      accessibilityLabel="School ID"
+                    />
+
+                    <Text style={styles.label}>Email</Text>
+                    <TextInput
+                      style={styles.input}
+                      value={email}
+                      onChangeText={setEmail}
+                      placeholder="Enter your email address"
+                      placeholderTextColor={COLORS.textSecondary}
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      keyboardType="email-address"
+                      editable={!loading}
+                      accessibilityLabel="Email"
+                    />
+
+                    <Text style={styles.label}>Password</Text>
+                    <TextInput
+                      style={styles.input}
+                      value={password}
+                      onChangeText={setPassword}
+                      placeholder="At least 6 characters"
+                      placeholderTextColor={COLORS.textSecondary}
+                      secureTextEntry
+                      autoCapitalize="none"
+                      editable={!loading}
+                      accessibilityLabel="Password"
+                    />
+
+                    <Text style={styles.label}>
+                      Confirm Password
+                    </Text>
+                    <TextInput
+                      style={styles.input}
+                      value={confirmPassword}
+                      onChangeText={setConfirmPassword}
+                      placeholder="Re-enter your password"
+                      placeholderTextColor={COLORS.textSecondary}
+                      secureTextEntry
+                      autoCapitalize="none"
+                      editable={!loading}
+                      accessibilityLabel="Confirm Password"
+                      onSubmitEditing={handleRegister}
+                      returnKeyType="done"
+                    />
+
+                    {error ? (
+                      <Text
+                        style={styles.error}
+                        accessibilityRole="alert"
+                      >
+                        {error}
+                      </Text>
+                    ) : null}
+
+                    <View style={styles.buttonWrapper}>
+                      {loading ? (
+                        <ActivityIndicator
+                          size="small"
+                          color={COLORS.primary}
+                          style={styles.loader}
+                        />
+                      ) : (
+                        <AppButton
+                          theme="primary"
+                          title="Sign Up"
+                          icon="person-add-outline"
+                          onPress={handleRegister}
+                        />
+                      )}
+                    </View>
+                  </View>
+
+                  <View style={styles.accountLinkContainer}>
+                    <Text style={styles.accountText}>
+                      Already have an account?
+                    </Text>
+                    <Link href="/login" style={styles.link}>
+                      Sign In
+                    </Link>
+                  </View>
+                </>
+              )}
+            </View>
+
+            <Text style={styles.footerText}>
+              QR Attendance System
+            </Text>
           </ScrollView>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
@@ -388,57 +363,95 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.background,
   },
-
   keyboardView: {
     flex: 1,
   },
-
   scrollContent: {
     flexGrow: 1,
-    paddingHorizontal: 24,
-    paddingBottom: 40,
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingBottom: 32,
   },
-
   headerContainer: {
-    alignItems: 'flex-start',
+    width: '100%',
+    maxWidth: 480,
+    alignItems: 'center',
     marginTop: 20,
-    marginBottom: 16,
+    marginBottom: 24,
   },
-
+  pageHeading: {
+    width: '100%',
+    maxWidth: 480,
+    alignItems: 'center',
+    marginBottom: 22,
+  },
   title: {
     fontSize: 28,
     fontWeight: '700',
     color: COLORS.textPrimary,
-    textAlign: 'left',
-    marginBottom: 4,
+    textAlign: 'center',
+    marginBottom: 8,
   },
-
   subtitle: {
     fontSize: 15,
-    lineHeight: 21,
+    lineHeight: 22,
     color: COLORS.textSecondary,
-    textAlign: 'left',
-    marginBottom: 32,
+    textAlign: 'center',
   },
-
+  formCard: {
+    width: '100%',
+    maxWidth: 480,
+    backgroundColor: COLORS.card,
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    padding: 24,
+    shadowColor: COLORS.shadow,
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.07,
+    shadowRadius: 12,
+    elevation: 3,
+  },
+  cardTitle: {
+    fontSize: 22,
+    fontWeight: '700',
+    color: COLORS.textPrimary,
+    textAlign: 'center',
+    marginBottom: 6,
+  },
+  cardDescription: {
+    fontSize: 14,
+    lineHeight: 20,
+    color: COLORS.textSecondary,
+    textAlign: 'center',
+    marginBottom: 16,
+  },
   form: {
-    marginBottom: 24,
+    width: '100%',
   },
-
   label: {
     fontSize: 14,
     fontWeight: '600',
     color: COLORS.textPrimary,
-    marginBottom: 6,
-    marginTop: 10,
+    marginBottom: 7,
+    marginTop: 12,
   },
-
+  input: {
+    width: '100%',
+    backgroundColor: COLORS.background,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+    fontSize: 15,
+    color: COLORS.textPrimary,
+  },
   roleOptions: {
     flexDirection: 'row',
     gap: 12,
     marginBottom: 2,
   },
-
   roleOption: {
     flex: 1,
     alignItems: 'center',
@@ -447,76 +460,89 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     borderColor: COLORS.border,
-    backgroundColor: COLORS.card,
+    backgroundColor: COLORS.background,
   },
-
   roleOptionSelected: {
     borderColor: COLORS.primary,
-    backgroundColor: '#F1E8FA',
+    backgroundColor: COLORS.primaryLight,
   },
-
   roleOptionText: {
     color: COLORS.textSecondary,
     fontSize: 15,
     fontWeight: '600',
   },
-
   roleOptionTextSelected: {
     color: COLORS.primary,
   },
-
-  input: {
-    backgroundColor: COLORS.card,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: COLORS.border,
-    paddingHorizontal: 14,
-    paddingVertical: 12,
-    fontSize: 16,
-    color: COLORS.textPrimary,
-  },
-
   error: {
-    fontSize: 14,
+    fontSize: 13,
+    lineHeight: 19,
     color: COLORS.danger,
-    textAlign: 'left',
+    textAlign: 'center',
     marginTop: 12,
-    marginBottom: 4,
   },
-
+  buttonWrapper: {
+    width: 175,
+    maxWidth: '100%',
+    alignSelf: 'center',
+    marginTop: 22,
+  },
   loader: {
-    marginVertical: 16,
+    marginVertical: 14,
   },
-
+  accountLinkContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    marginTop: 22,
+    gap: 5,
+  },
+  accountText: {
+    fontSize: 14,
+    color: COLORS.textSecondary,
+  },
   link: {
     fontSize: 14,
     color: COLORS.primary,
-    textAlign: 'left',
-    fontWeight: '600',
+    textAlign: 'center',
+    fontWeight: '700',
   },
-
   successContainer: {
-    alignItems: 'flex-start',
-    marginBottom: 24,
-    padding: 20,
-    backgroundColor: COLORS.card,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: COLORS.border,
+    alignItems: 'center',
+    paddingVertical: 8,
   },
-
+  successIcon: {
+    width: 48,
+    height: 48,
+    lineHeight: 48,
+    borderRadius: 24,
+    overflow: 'hidden',
+    backgroundColor: COLORS.successLight,
+    color: COLORS.success,
+    fontSize: 28,
+    fontWeight: '700',
+    textAlign: 'center',
+    marginBottom: 14,
+  },
   successTitle: {
-    fontSize: 18,
+    fontSize: 22,
     fontWeight: '700',
     color: COLORS.textPrimary,
-    marginBottom: 8,
+    textAlign: 'center',
+    marginBottom: 10,
   },
-
   successText: {
     fontSize: 14,
+    lineHeight: 21,
     color: COLORS.textSecondary,
-    textAlign: 'left',
-    lineHeight: 20,
-    marginBottom: 16,
+    textAlign: 'center',
+    marginBottom: 8,
+  },
+  footerText: {
+    fontSize: 12,
+    color: COLORS.muted,
+    textAlign: 'center',
+    marginTop: 24,
   },
 });
